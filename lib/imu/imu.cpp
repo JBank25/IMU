@@ -7,10 +7,12 @@
 
 
 //Constructor: Initializes the Adafruit_BNO055 object and checks if it was successful
-BNO055_IMU :: BNO055_IMU() : imu_() {
-    if (!imu_.begin()) {
-        // Handle error if the IMU failed to initialize
-    }
+BNO055_IMU :: BNO055_IMU() : imu_(Adafruit_BNO055()) {
+}
+
+void BNO055_IMU :: startIMU() {
+    imu_.begin();
+    //set the external crystal
     imu_.setExtCrystalUse(true);
 }
 
@@ -39,4 +41,11 @@ float BNO055_IMU :: getPitch() {
 float BNO055_IMU :: getRoll() {
     imu::Vector<3> acc = getAcceleration();
     return atan2(acc.y()/GRAVITY, acc.z()/GRAVITY) * RAD_TO_DEG;
+}
+
+void BNO055_IMU :: toogleLed() {
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(100);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(100);
 }

@@ -1,28 +1,19 @@
 #include <Arduino.h>
-#include "imu/imu.h"
+#include "imu.h"
 
-BNO055_IMU myImu = BNO055_IMU();
+BNO055_IMU myIMU = BNO055_IMU();
 
-void setup() 
-{
-  Serial.begin(9600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
-  Serial.println("Starting");
+// the setup function runs once when you press reset or power the board
+void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(LED_BUILTIN, OUTPUT); 
+  //set the external crystal
+  myIMU.startIMU();
 }
-void loop() 
-{
-  //show what we are debugging
-  Serial.println("Accelerometer");
-  //get the accelerometer vector
-  imu::Vector<3> acc = myImu.getAcceleration();
-  //print the x, y, and z components of the vector
-  Serial.print("X: ");
-  Serial.print(acc.x());
-  Serial.print(" Y: ");
-  Serial.print(acc.y());
-  Serial.print(" Z: ");
-  Serial.println(acc.z());
 
+// the loop function runs over and over again forever
+void loop() {
+  //get accelerometer readings
+  imu::Vector<3> acc = myIMU.getAcceleration();
+  myIMU.toogleLed();
 }
