@@ -3,6 +3,11 @@
 
 
 class BLE_Device {
+public:
+    BLE_Device();
+    void startBLE();
+    void getConnection();
+    void sendFloatValues(float* dataBuffer);
 private:
     const char * deviceName;
     const char * localName;
@@ -12,10 +17,4 @@ private:
     BLECharacteristic floatValueCharacteristic;
     BLEDevice central;
     float packetCount;
-public:
-public:
-    BLE_Device();
-    void startBLE();
-    void getConnection();
-    void sendFloatValues(float* dataBuffer);
 };
