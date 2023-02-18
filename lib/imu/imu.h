@@ -3,6 +3,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
+#include <cstring>
 
 #define GRAVITY 9.80665
 
@@ -13,18 +14,16 @@ public:
     BNO055_IMU();
 
     // Public member functions
+    void startIMU();
     imu::Vector<3> getAcceleration();
     imu::Vector<3> getGyroscope();
     imu::Vector<3> getMagnetometer();
-    void startIMU();
-    //delere this method, only for testing
-    void toogleLed();
+    void get9AxisReadings(float * dataBuffer);
+    void ledHigh();       //delere this method, only for testing
+    void ledLow();       //delere this method, only for testing
     float getPitch();
     float getRoll();
 
 private:
     Adafruit_BNO055 imu_;
 };
-
-//need def for toogleLed()
-void toogleLed();

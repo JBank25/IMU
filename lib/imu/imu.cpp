@@ -3,7 +3,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
-
+#include <cstring>
 
 
 //Constructor: Initializes the Adafruit_BNO055 object and checks if it was successful
@@ -43,9 +43,19 @@ float BNO055_IMU :: getRoll() {
     return atan2(acc.y()/GRAVITY, acc.z()/GRAVITY) * RAD_TO_DEG;
 }
 
-void BNO055_IMU :: toogleLed() {
+void BNO055_IMU :: get9AxisReadings(float * dataBuffer)
+{
+    imu::Vector<3> acc = getAcceleration();
+    imu::Vector<3> gyro = getGyroscope();
+    imu::Vector<3> mag = getMagnetometer();
+    std::memcpy(dataBuffer, &acc, sizeof(acc));
+    std::memcpy(dataBuffer + sizeof(acc), &gyro, sizeof(gyro));
+    std::memcpy(dataBuffer + sizeof(acc) + sizeof(gyro), &mag, sizeof(mag));
+}
+
+void BNO055_IMU :: ledHigh() {
     digitalWrite(LED_BUILTIN, HIGH);
-    delay(100);
+}
+void BNO055_IMU :: ledLow() {
     digitalWrite(LED_BUILTIN, LOW);
-    delay(100);
 }
