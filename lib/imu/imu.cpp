@@ -48,9 +48,13 @@ void BNO055_IMU :: get9AxisReadings(float * dataBuffer)
     imu::Vector<3> acc = getAcceleration();
     imu::Vector<3> gyro = getGyroscope();
     imu::Vector<3> mag = getMagnetometer();
-    std::memcpy(dataBuffer, &acc, sizeof(acc));
-    std::memcpy(dataBuffer + sizeof(acc), &gyro, sizeof(gyro));
-    std::memcpy(dataBuffer + sizeof(acc) + sizeof(gyro), &mag, sizeof(mag));
+    // Copy values into buffer
+    for(int i = 0; i < 3; i++) 
+    {
+        dataBuffer[i] = acc[i];
+        dataBuffer[i+3] = gyro[i];
+        dataBuffer[i+6] = mag[i];
+    }
 }
 
 void BNO055_IMU :: ledHigh() {
