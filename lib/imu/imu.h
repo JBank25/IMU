@@ -1,13 +1,15 @@
 #pragma once
-#include <Wire.h>
-#include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
-#include <utility/imumaths.h>
-#include <cstring>
+#include "MadgwickAHRS.h"
 
 #define GRAVITY 9.80665
+#define ACCEL_CALIBRATION_PIN 2
+#define GYRO_CALIBRATION_PIN 3
+#define MAG_CALIBRATION_PIN 4
+#define SYSTEM_CALIBRATION_PIN 5
+#define IMU_UPDATE_PIN 6
 
-// Declare the class
+
 class BNO055_IMU {
 public:
     // Constructor
@@ -19,11 +21,16 @@ public:
     imu::Vector<3> getGyroscope();
     imu::Vector<3> getMagnetometer();
     void get9AxisReadings(float * dataBuffer);
-    void ledHigh();       //delere this method, only for testing
-    void ledLow();       //delere this method, only for testing
+    void updateMadgwick();
+    float getIMUHeading();
+    float getIMURoll();
+    float getIMUPitch();
+    void getMadgwickOrientation(float * dataBuffer);
+    void calibrate();
     float getPitch();
     float getRoll();
 
 private:
     Adafruit_BNO055 imu_;
+    Madgwick madgwick_;
 };

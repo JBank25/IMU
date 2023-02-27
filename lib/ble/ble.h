@@ -1,13 +1,12 @@
 #pragma once
 #include <ArduinoBLE.h>
 
-
 class BLE_Device {
 public:
     BLE_Device();
     void startBLE();
     void getConnection();
-    void updateIMUData(float dataBuffer[10]);
+    void updateIMUData(float dataBuffer[13]);
     void updateGPSData(float dataBuffer[4]);
     bool isConnected();
 private:
